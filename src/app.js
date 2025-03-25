@@ -30,6 +30,20 @@ app.use("/test" , (req,res)=>{
 // app.use("/hello" , (req,res)=>{
 //     res.send("running at localhost 3000/help")
 // })
+ 
+//optional expression ab?c
+app.get("/ab+c" , (req,res)=>{
+    res.send({firstname:"work at abc abd ac"})
+})
+ 
+//multiple route handlers
+app.get("/multiple" , (req,res,next)=>{
+   // res.send("route1") if there is no response next func is included
+    next();
+},
+(req,res)=>{
+    res.send("route2")
+})
 
  app.listen(3000 , ()=>{
     console.log("Server has been started successfully")
