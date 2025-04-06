@@ -38,7 +38,7 @@ app.get("/ab+c" , (req,res)=>{
  
 //multiple route handlers
 app.get("/multiple" , (req,res,next)=>{
-   // res.send("route1") if there is no response next func is included
+   res.send("route1")   //if there is no response next func will work
     next();
 },
 (req,res)=>{
