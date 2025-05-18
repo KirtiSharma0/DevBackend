@@ -1,6 +1,9 @@
  //create server by importing express into out app
  const express = require('express');
 
+ //connecting db
+ require("./config/database")
+
  //creating new app by calling express func
  const app = express();
 
@@ -43,6 +46,32 @@ app.get("/multiple" , (req,res,next)=>{
 },
 (req,res)=>{
     res.send("route2")
+})
+
+  //admin
+app.get("/admin/getAllData", (req,res) =>{
+  //logic of checking if the request is authorized or not
+   const token = "xyz";  //if we change value of token then it will run else condition
+   const isAuthorized = token == "xyz";
+   if(isAuthorized){
+    res.send("All data sent");
+   }
+  else {
+    res.status(401).send("Unauthorized data")
+  }
+})
+app.get("/admin/deleteAllData", (req,res) =>{
+  //logic of checking if the request is authorized or not
+  //fetching data from database
+  res.send("All data deleted");
+})
+
+//importing separate folder of middlerware
+const {adminAuth,userAuth} = require("./middleware/auth");
+app.use("/admin",adminAuth);    //and pass it like this
+app.get("/user",userAuth , (req,res) =>{
+    res.send("user data sent");
+
 })
 
  app.listen(3000 , ()=>{
