@@ -1,11 +1,52 @@
  //create server by importing express into out app
  const express = require('express');
 
- //connecting db
- require("./config/database")
+ //connecting db and importing connectdb from database
+ const connectDB = require("./config/database")
+ //put values of userobject in database attributes
+ const User = require("./models/user")
 
  //creating new app by calling express func
  const app = express();
+ app.use(express.json())  //helps to allow for accessing request body content
+   
+  
+ //creating api for userSchema input database
+ app.post("/signup",async(req,res) =>{
+  //creating a new instance of user model
+  const data = req.body;
+    const user = new User(data);
+
+     await user.save();
+     res.send("user added successfully")
+ })
+ connectDB()
+.then(()=>{
+    console.log("database connected");
+})
+.catch(err=>{
+    console.error("database not found");
+});
+
+//update user data by patch api
+app.patch("/user", async(req,res)=>{
+    const userID = req.body.userID;
+    const data = req.body;
+    //allow certain updations
+    const AllowedUpdates = [
+        "photoUrl","about","description"
+    ]
+    try {
+        const user = await User.findByIDandUpdate({_id:userID},data,{
+            returnDocument:"after",
+            runValidators:true,
+        });
+        res.send("User updated");
+    }catch (err){
+        res.status(400).send("User not updated")
+    }
+});
+ 
 
 //only handle Get call api to user
 app.get("/user" , (req,res)=>{
@@ -73,6 +114,7 @@ app.get("/user",userAuth , (req,res) =>{
     res.send("user data sent");
 
 })
+
 
  app.listen(3000 , ()=>{
     console.log("Server has been started successfully")
