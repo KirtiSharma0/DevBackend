@@ -5,7 +5,8 @@ const userSchema = mongoose.Schema({
     firstName: {
         type: String,
         required : true, //va.id data mandatory field
-        minlength:2,
+        minlength:5,
+        maxlenght:25
     },
     lastName: {
         type: String

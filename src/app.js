@@ -5,14 +5,22 @@
  const connectDB = require("./config/database")
  //put values of userobject in database attributes
  const User = require("./models/user")
-
+ //importing validation data for password encryption
+ const {validateData} = require("./utils/validation")
+ //importing bcrypt package for password encryption
+ const bcrypt = require("bcrypt")
  //creating new app by calling express func
  const app = express();
  app.use(express.json())  //helps to allow for accessing request body content
-   
-  
+    
+
  //creating api for userSchema input database
  app.post("/signup",async(req,res) =>{
+   //validating data
+   validateData(req)
+
+   //encrypted password
+
   //creating a new instance of user model
   const data = req.body;
     const user = new User(data);
