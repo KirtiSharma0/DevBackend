@@ -16,7 +16,7 @@ const validateData = (req)=> {
         throw new Error("Email id is not valid");
     }
     else if(!validator.isStrongPassword(password)){
-        throw new Error("This is not a strong password");
+        throw new Error("not a strong password");
     }
 }
 
