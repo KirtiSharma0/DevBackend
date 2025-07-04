@@ -9,10 +9,12 @@
  const {validateData} = require("./utils/validation")
  //importing bcrypt package for password encryption
  const bcrypt = require("bcrypt")
+ //importing cookie parser
+ const cookieParser = require("cookie-parser");
  //creating new app by calling express func
  const app = express();
  app.use(express.json())  //helps to allow for accessing request body content
-    
+ app.use(cookie)          //helps to allow for accessing request body content
 
  //creating api for userSchema input database
  app.post("/signup",async(req,res) =>{
