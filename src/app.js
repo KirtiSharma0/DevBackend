@@ -20,6 +20,27 @@
    validateData(req)
 
    //encrypted password
+   app.post("/login" async {req,res} => {
+     try {
+        const{emailID , password} = req.body;
+        const user = await User.findOne {emailID : emailID};
+        if(!user){
+            throw new Error("invalid credentials");
+        }
+     } 
+     const isPasswordvalid = await bcrypt.compare(password , user.password);
+     //authemtication jwt works here
+     if(isPasswordvalid){
+        //create jwt token
+
+        //add jwt token to cookie and sent back to the user
+        res.cookie("token" , "abcdefgh");
+        res.send("login successfull");
+     }
+     else {
+        throw new Error("invalid credentials")
+     }
+   })
 
   //creating a new instance of user model
   const data = req.body;
